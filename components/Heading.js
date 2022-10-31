@@ -18,6 +18,8 @@ const styles = StyleSheet.create({
     fontSize: "35%",
     textAlign: "center",
     marginTop: 50,
+    textDecorationLine: "underline",
+    textDecorationColor: "gray",
     ...Platform.select({
       ios: {},
       android: {},
