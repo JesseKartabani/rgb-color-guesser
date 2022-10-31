@@ -14,7 +14,7 @@ export default Heading;
 
 const styles = StyleSheet.create({
   heading: {
-    fontWeight: "600",
+    fontWeight: "800",
     fontSize: "35%",
     textAlign: "center",
     marginTop: 50,
