@@ -86,7 +86,7 @@ const ColorGuess = () => {
           <Text style={styles.correctTxt}>Correct!</Text>
         )}
         {correctAnswer == "false" && (
-          <Text style={styles.correctTxt}>Incorrect!</Text>
+          <Text style={styles.incorrectTxt}>Incorrect!</Text>
         )}
       </View>
 
@@ -145,6 +145,20 @@ const styles = StyleSheet.create({
   correctTxt: {
     fontSize: "20%",
     color: "green",
+    textAlign: "center",
+    marginTop: 25,
+    ...Platform.select({
+      ios: {},
+      android: {},
+      default: {
+        fontSize: "140%",
+      },
+    }),
+  },
+
+  incorrectTxt: {
+    fontSize: "20%",
+    color: "red",
     textAlign: "center",
     marginTop: 25,
     ...Platform.select({
