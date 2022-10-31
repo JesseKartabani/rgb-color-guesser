@@ -1,10 +1,16 @@
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Platform,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const ColorGuess = () => {
   // Track if users answer is correct
-  const [correctAnswer, setCorrectAnswer] = useState(["false"]);
+  const [correctAnswer, setCorrectAnswer] = useState([]);
   // State of colors
   const [color, setColor] = useState([]);
   const [fakeColor, setFakeColor] = useState([]);
@@ -60,38 +66,57 @@ const ColorGuess = () => {
       <View
         style={{
           backgroundColor: color,
-          width: 100,
-          height: 100,
+          width: 200,
+          height: 200,
           alignSelf: "center",
+          ...Platform.select({
+            ios: {},
+            android: {},
+            default: {
+              width: 400,
+              height: 400,
+            },
+          }),
         }}
       ></View>
 
-      {/* Display text if user gets answer correct */}
-      <View>{correctAnswer == "true" && <Text>Correct</Text>}</View>
+      {/* Tell user if they were right or wrong */}
+      <View>
+        {correctAnswer == "true" && (
+          <Text style={styles.correctTxt}>Correct!</Text>
+        )}
+        {correctAnswer == "false" && (
+          <Text style={styles.correctTxt}>Incorrect!</Text>
+        )}
+      </View>
 
-      <View styles={styles.answers}>
+      {/* 3 Answer buttons that check on click if user was correct */}
+      <View styles={styles.answersContainer}>
         <TouchableOpacity
+          style={styles.answerButton}
           onPress={async () => {
             checkAnswer(answers[0]);
           }}
         >
-          <Text>{answers[0]}</Text>
+          <Text style={styles.answerTxt}>{answers[0]}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
+          style={styles.answerButton}
           onPress={async () => {
             checkAnswer(answers[1]);
           }}
         >
-          <Text>{answers[1]}</Text>
+          <Text style={styles.answerTxt}>{answers[1]}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
+          style={styles.answerButton}
           onPress={async () => {
             checkAnswer(answers[2]);
           }}
         >
-          <Text>{answers[2]}</Text>
+          <Text style={styles.answerTxt}>{answers[2]}</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -101,8 +126,33 @@ const ColorGuess = () => {
 export default ColorGuess;
 
 const styles = StyleSheet.create({
-  answers: {
-    width: 100,
-    height: 100,
+  answerButton: {
+    alignSelf: "center",
+    marginTop: 25,
+  },
+
+  answerTxt: {
+    fontSize: "20%",
+    ...Platform.select({
+      ios: {},
+      android: {},
+      default: {
+        fontSize: "140%",
+      },
+    }),
+  },
+
+  correctTxt: {
+    fontSize: "20%",
+    color: "green",
+    textAlign: "center",
+    marginTop: 25,
+    ...Platform.select({
+      ios: {},
+      android: {},
+      default: {
+        fontSize: "140%",
+      },
+    }),
   },
 });

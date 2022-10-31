@@ -5,7 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const Heading = () => {
   return (
     <SafeAreaView>
-      <Text style={styles.heading}>Guess The Value!</Text>
+      <Text style={styles.heading}>Guess The Value</Text>
     </SafeAreaView>
   );
 };
@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
       android: {},
       default: {
         fontSize: "250%",
+        marginBottom: 50,
       },
     }),
   },
