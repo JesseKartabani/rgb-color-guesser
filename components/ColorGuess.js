@@ -11,6 +11,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const ColorGuess = () => {
   // Track if users answer is correct
   const [correctAnswer, setCorrectAnswer] = useState([]);
+  // Track users correct guessing streak
+  const [winStreak, setWinStreak] = useState([0]);
   // State of colors
   const [color, setColor] = useState([]);
   const [fakeColor, setFakeColor] = useState([]);
@@ -27,19 +29,22 @@ const ColorGuess = () => {
     const r = randomNum(0, 255);
     const g = randomNum(0, 255);
     const b = randomNum(0, 255);
-    state(`rgb(${r},${g},${b})`);
+    state(`rgb(${r}, ${g}, ${b})`);
   }
 
   // Check if user gets correct answer
   function checkAnswer(answer) {
-    // If correct randomize colors again
+    // If correct answer
     if (answer == color) {
       setCorrectAnswer("true");
+      setWinStreak(winStreak + 1);
+      // randomize colors again
       randomColors(setColor);
       randomColors(setFakeColor);
       randomColors(setFakeColor1);
     } else {
       setCorrectAnswer("false");
+      setWinStreak(0);
     }
   }
   // Set random colors on startup
@@ -55,13 +60,11 @@ const ColorGuess = () => {
     setAnswers([color, fakeColor, fakeColor1].sort(() => 0.5 - Math.random()));
   }, [color]);
 
-  //console.log(color);
-  //console.log(fakeColor);
-  //console.log(fakeColor1);
-  //console.log(answers);
-
   return (
     <SafeAreaView>
+      {/* displays users win streak */}
+      <Text style={styles.winStreakTxt}>Win Streak: {winStreak}</Text>
+
       {/* Box displaying random color */}
       <View
         style={{
@@ -98,7 +101,7 @@ const ColorGuess = () => {
             checkAnswer(answers[0]);
           }}
         >
-          <Text style={styles.answerTxt}>{answers[0]}</Text>
+          <Text style={styles.answerTxt}>1. {answers[0]}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -107,7 +110,7 @@ const ColorGuess = () => {
             checkAnswer(answers[1]);
           }}
         >
-          <Text style={styles.answerTxt}>{answers[1]}</Text>
+          <Text style={styles.answerTxt}>2. {answers[1]}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -116,7 +119,7 @@ const ColorGuess = () => {
             checkAnswer(answers[2]);
           }}
         >
-          <Text style={styles.answerTxt}>{answers[2]}</Text>
+          <Text style={styles.answerTxt}>3. {answers[2]}</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -131,8 +134,23 @@ const styles = StyleSheet.create({
     marginTop: 25,
   },
 
+  winStreakTxt: {
+    textAlign: "center",
+    fontSize: "22%",
+    fontWeight: "600",
+    marginBottom: 20,
+    ...Platform.select({
+      ios: {},
+      android: {},
+      default: {
+        fontSize: "140%",
+      },
+    }),
+  },
+
   answerTxt: {
     fontSize: "20%",
+    fontWeight: "500",
     ...Platform.select({
       ios: {},
       android: {},
@@ -146,6 +164,7 @@ const styles = StyleSheet.create({
     fontSize: "20%",
     color: "green",
     textAlign: "center",
+    fontWeight: "500",
     marginTop: 25,
     ...Platform.select({
       ios: {},
@@ -160,6 +179,7 @@ const styles = StyleSheet.create({
     fontSize: "20%",
     color: "red",
     textAlign: "center",
+    fontWeight: "500",
     marginTop: 25,
     ...Platform.select({
       ios: {},
