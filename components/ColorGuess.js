@@ -151,6 +151,11 @@ const styles = StyleSheet.create({
   answerTxt: {
     fontSize: "20%",
     fontWeight: "500",
+    padding: 8,
+    paddingLeft: 15,
+    paddingRight: 15,
+    borderWidth: 1,
+    borderRadius: 5,
     ...Platform.select({
       ios: {},
       android: {},
